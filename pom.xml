@@ -15,6 +15,9 @@
 	<description>demo</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<timeZone>Asia/Singapore</timeZone>
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -23,9 +26,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -34,6 +42,24 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.example.demo.DemoApplication</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.2.1</version>
+
+				<configuration>
+					<to>
+						<image>hub.kss.com.vn/develop/my-app:${maven.build.timestamp}</image>
+						<auth>
+							<username>manh.dd</username>
+							<password>TeYA7Sr@3</password>
+						</auth>
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
