@@ -15,9 +15,6 @@
 	<description>demo</description>
 	<properties>
 		<java.version>11</java.version>
-		<timeZone>Asia/Singapore</timeZone>
-		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-
 	</properties>
 	<dependencies>
 		<dependency>
@@ -50,31 +47,54 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.2.1</version>
-
+				<dependencies>
+					<dependency>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-layer-filter-extension-maven</artifactId>
+						<version>0.3.0</version>
+					</dependency>
+				</dependencies>
 				<configuration>
+					<extraDirectories>
+						<paths>
+							<path>
+								<from>target/</from>
+								<includes>*.jar</includes>
+								<into>/app</into>
+							</path>
+						</paths>
+					</extraDirectories>
 					<from>
-						<image>docker://apache/skywalking-java-agent:8.11.0-java11</image>
+						<image>apache/skywalking-java-agent:8.11.0-java11</image>
 					</from>
-					<to>
-						<image>hub.docker.com/anhmanh2810/my-app</image>
-						<auth>
-							<username>anhmanh2810</username>
-							<password>anhmanhbu8</password>
-						</auth>
-						<tags>
-							<tag>${maven.build.timestamp}</tag>
-							<tag>latest</tag>
-						</tags>
-					</to>
+					<container>
+						<environment>
+							<SW_AGENT_COLLECTOR_BACKEND_SERVICES>194.233.66.244:11800</SW_AGENT_COLLECTOR_BACKEND_SERVICES>
+							<SW_AGENT_NAME>user_device</SW_AGENT_NAME>
+							<TZ>Asia/Singapore</TZ>
+						</environment>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+						<entrypoint>java,-jar,/app/${project.build.finalName}.jar</entrypoint>
+					</container>
+					<pluginExtensions>
+						<pluginExtension>
+							<implementation>com.google.cloud.tools.jib.maven.extension.layerfilter.JibLayerFilterExtension</implementation>
+							<configuration implementation="com.google.cloud.tools.jib.maven.extension.layerfilter.Configuration">
+								<filters>
+									<filter>
+										<!-- exclude all jib layers, which is basically anything in /app -->
+										<glob>/app/**</glob>
+									</filter>
+									<filter>
+										<!-- this is our fat jar, this should be kept by adding it into its own layer -->
+										<glob>/app/${project.build.finalName}.jar</glob>
+										<toLayer>jib-custom-fatJar</toLayer>
+									</filter>
+								</filters>
+							</configuration>
+						</pluginExtension>
+					</pluginExtensions>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
