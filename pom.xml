@@ -14,7 +14,7 @@
 	<name>demo</name>
 	<description>demo</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<timeZone>Asia/Singapore</timeZone>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 
@@ -52,14 +52,25 @@
 				<version>3.2.1</version>
 
 				<configuration>
+					<from>
+						<image>hub.kss.com.vn/base/skywalking-java-agent:8.11.0-java11</image>
+					</from>
 					<to>
-						<image>hub.kss.com.vn/develop/my-app:${maven.build.timestamp}</image>
-						<auth>
-							<username>manh.dd</username>
-							<password>TeYA7Sr@3</password>
-						</auth>
+						<image>hub.kss.com.vn/develop/my-app</image>
+						<tags>
+							<tag>${maven.build.timestamp}</tag>
+							<tag>latest</tag>
+						</tags>
 					</to>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
