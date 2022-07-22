@@ -53,10 +53,14 @@
 
 				<configuration>
 					<from>
-						<image>apache/skywalking-java-agent:8.11.0-java11</image>
+						<image>docker://apache/skywalking-java-agent:8.11.0-java11</image>
 					</from>
 					<to>
 						<image>hub.docker.com/anhmanh2810/my-app</image>
+						<auth>
+							<username>anhmanh2810</username>
+							<password>anhmanhbu8</password>
+						</auth>
 						<tags>
 							<tag>${maven.build.timestamp}</tag>
 							<tag>latest</tag>
