@@ -53,10 +53,10 @@
 
 				<configuration>
 					<from>
-						<image>hub.kss.com.vn/base/skywalking-java-agent:8.11.0-java11</image>
+						<image>apache/skywalking-java-agent:8.11.0-java11</image>
 					</from>
 					<to>
-						<image>hub.kss.com.vn/develop/my-app</image>
+						<image>hub.docker.com/anhmanh2810/my-app</image>
 						<tags>
 							<tag>${maven.build.timestamp}</tag>
 							<tag>latest</tag>
